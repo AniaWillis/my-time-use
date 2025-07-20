@@ -5,7 +5,7 @@ import Button from "../components/Button";
 import { AuthProps } from "../types/auth";
 import { supabase } from "./supabase-client";
 
-function Auth({ isSignUp }: AuthProps) {
+function Auth({ isSignUp, onSignUp }: AuthProps) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [firstName, setFirstName] = useState("");
@@ -27,6 +27,11 @@ function Auth({ isSignUp }: AuthProps) {
         toast.error("Something went wrong. Please try signing up again.");
         return;
       }
+      toast.success(
+        "Sign-up successful! Check your email to verify your account, then log in."
+      );
+      onSignUp(false);
+      setPassword("");
     } else {
       const { error: signInError } = await supabase.auth.signInWithPassword({
         email,
